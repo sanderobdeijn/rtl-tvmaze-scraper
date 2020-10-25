@@ -6,7 +6,6 @@ services:
         image: sobdeijn/rtl-tvmaze-scraper
         ports:
             - "8080:80"
-        restart: on-failure
         environment:
             - "ConnectionStrings:DefaultConnection=Server=db;Database=TvMaze;User Id=sa;Password=Your_password123"
         depends_on:

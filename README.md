@@ -10,11 +10,18 @@ The solution is written in dotnet core 3.1. This is the current LTS version and 
 # How to use
 
 - Clone the repository
-- In the folder where the project file (*.csproj) is located run
+- In the root folder run 
 ```
-dotnet run
+docker-compose build
 ```
-
+- In the root folder run 
+```
+docker-compose up -d
+```
 # Prerequisites
 
 - docker
+# To improve
+- Add unit tests
+- Add certificate to docker to enable https
+- Check if calls are actually rate limited

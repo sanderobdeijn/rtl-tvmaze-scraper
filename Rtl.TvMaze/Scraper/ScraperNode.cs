@@ -30,6 +30,13 @@ namespace Rtl.TvMaze.Scraper
                 }
 
                 var result = await response.Content.ReadAsStringAsync();
+                
+                if (response.StatusCode == HttpStatusCode.TooManyRequests)
+                {
+                    // Check if we actually hit rate limiting. According to the documentation with the show endpoint always uses the edge cache and isn't rate limited
+                    Console.WriteLine(result);
+                }
+
                 shows.AddRange(JsonConvert.DeserializeObject<IEnumerable<ShowDto>>(result));
             }
             catch (Exception e)
@@ -55,6 +62,12 @@ namespace Rtl.TvMaze.Scraper
                 }
 
                 var result = await response.Content.ReadAsStringAsync();
+                if (response.StatusCode == HttpStatusCode.TooManyRequests)
+                {
+                    // Check if we actually hit rate limiting. According to the documentation with the show endpoint always uses the edge cache and isn't rate limited
+                    Console.WriteLine(result);
+                }
+
                 var persons = JsonConvert.DeserializeObject<IEnumerable<PersonDto>>(result);
                 actors.AddRange(persons.Select(p => p.Person));
             }

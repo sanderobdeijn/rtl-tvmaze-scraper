@@ -58,7 +58,10 @@ namespace Rtl.TvMaze
 
             services.AddControllers();
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c =>
+            {
+                c.EnableAnnotations();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -88,7 +91,7 @@ namespace Rtl.TvMaze
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Rtl TvMaze API V1");
                 c.RoutePrefix = string.Empty;
-            });
+             });
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

@@ -17,7 +17,7 @@ namespace Rtl.TvMaze.Shows
         }
 
         [AllowAnonymous]
-        [HttpGet("api/show/")]
+        [HttpGet("api/show/list")]
         [SwaggerOperation(
             Summary = "List all Shows",
             Description = "List all Shows",
