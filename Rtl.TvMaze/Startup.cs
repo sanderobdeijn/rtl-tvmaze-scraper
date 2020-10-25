@@ -11,6 +11,7 @@ using Polly;
 using Polly.Extensions.Http;
 using Rtl.TvMaze.Data;
 using Rtl.TvMaze.Scraper;
+using Rtl.TvMaze.Shows;
 
 namespace Rtl.TvMaze
 {
@@ -37,6 +38,7 @@ namespace Rtl.TvMaze
             services.Configure<TvMazeOptions>(configuration.GetSection("TvMazeOptions"));
 
             services.AddTransient<IScraperNode, ScraperNode>();
+            services.AddTransient<IShowsService, ShowsService>();
 
             services.AddHostedService<ScraperService>();
 
