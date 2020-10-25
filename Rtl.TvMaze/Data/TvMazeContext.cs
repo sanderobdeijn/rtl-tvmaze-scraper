@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Rtl.TvMaze.Models;
 
 namespace Rtl.TvMaze.Data
 {
@@ -10,8 +11,11 @@ namespace Rtl.TvMaze.Data
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
+            base.OnModelCreating(builder);
+
+            builder.ApplyConfigurationsFromAssembly(typeof(Actor).Assembly);
         }
     }
 }
