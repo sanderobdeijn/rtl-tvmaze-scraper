@@ -1,15 +1,16 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Net;
+using System.Net.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
+using Polly.Extensions.Http;
 using Rtl.TvMaze.Data;
+using Rtl.TvMaze.Scraper;
 
 namespace Rtl.TvMaze
 {
@@ -26,12 +27,32 @@ namespace Rtl.TvMaze
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TvMazeContext>(options =>
+            services.AddDbContext<TvMazeDbContext>(options =>
                 options
                     .UseSqlServer(this.configuration.GetConnectionString("DefaultConnection"))
                     .EnableDetailedErrors()
                     .EnableSensitiveDataLogging()
             );
+
+            services.Configure<TvMazeOptions>(configuration.GetSection("TvMazeOptions"));
+
+            services.AddTransient<IScraperNode, ScraperNode>();
+
+            services.AddHostedService<ScraperService>();
+
+            var registry = services.AddPolicyRegistry();
+
+            var defaultPolicy = Policy
+                .HandleResult<HttpResponseMessage>(message => message.StatusCode == HttpStatusCode.TooManyRequests)
+                .OrTransientHttpError()
+                .WaitAndRetryAsync(5, retryAttempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retryAttempt))
+                );
+
+            registry.Add("Default", defaultPolicy);
+
+            services.AddHttpClient<TvMazeScraperHttpClient>()
+                .AddPolicyHandlerFromRegistry("Default");
 
             services.AddControllers();
 
@@ -39,7 +60,7 @@ namespace Rtl.TvMaze
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TvMazeContext tvMazeContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, TvMazeDbContext tvMazeContext)
         {
             try
             {

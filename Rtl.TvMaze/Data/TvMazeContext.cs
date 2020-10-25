@@ -3,9 +3,9 @@ using Rtl.TvMaze.Models;
 
 namespace Rtl.TvMaze.Data
 {
-    public class TvMazeContext : DbContext
+    public class TvMazeDbContext : DbContext
     {
-        public TvMazeContext(DbContextOptions<TvMazeContext> options) :
+        public TvMazeDbContext(DbContextOptions<TvMazeDbContext> options) :
             base(options)
         {
 

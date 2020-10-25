@@ -9,7 +9,7 @@ using Rtl.TvMaze.Data;
 
 namespace Rtl.TvMaze.Migrations
 {
-    [DbContext(typeof(TvMazeContext))]
+    [DbContext(typeof(TvMazeDbContext))]
     [Migration("20201025133927_Initial-Create")]
     partial class InitialCreate
     {

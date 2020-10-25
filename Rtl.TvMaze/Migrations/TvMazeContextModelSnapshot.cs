@@ -8,7 +8,7 @@ using Rtl.TvMaze.Data;
 
 namespace Rtl.TvMaze.Migrations
 {
-    [DbContext(typeof(TvMazeContext))]
+    [DbContext(typeof(TvMazeDbContext))]
     partial class TvMazeContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
