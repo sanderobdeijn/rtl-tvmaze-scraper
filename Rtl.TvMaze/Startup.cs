@@ -47,9 +47,7 @@ namespace Rtl.TvMaze
             var defaultPolicy = Policy
                 .HandleResult<HttpResponseMessage>(message => message.StatusCode == HttpStatusCode.TooManyRequests)
                 .OrTransientHttpError()
-                .WaitAndRetryAsync(5, retryAttempt =>
-                    TimeSpan.FromSeconds(5))
-                );
+                .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(5));
 
             registry.Add("Default", defaultPolicy);
 
