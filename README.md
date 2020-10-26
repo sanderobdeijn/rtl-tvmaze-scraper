@@ -11,18 +11,16 @@ The TvMaze documentation suggests that the show endpoint are behind the edge cac
 # How to use
 
 - Clone the repository
-- In the root folder run 
+- In the that contains the .csproj file run
 ```
-docker-compose build
+dotnet run
 ```
-- In the root folder run 
-```
-docker-compose up -d
-```
+
 # Prerequisites
 
 - docker
 # To improve
+- Add Docker
 - Add unit tests
 - Add certificate to docker to enable https
 - Check if calls are actually rate limited
