@@ -18,7 +18,9 @@ dotnet run
 
 # Prerequisites
 
-- docker
+- Dotnet SDK 3.1
+- LocalDb Sqlserver running
+
 # To improve
 - Add Docker
 - Add unit tests
